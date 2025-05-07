@@ -32,16 +32,16 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain.retrievers.multi_query import MultiQueryRetriever
 from typing import List, Tuple, Dict, Any, Optional
 
-from .config import OLLAMA_HOST, OLLAMA_API_KEY, PERSIST_DIRECTORY, DOCS_METADATA_DIR, DATA_CHANGES_DIR
+from src.app.config import OLLAMA_HOST, OLLAMA_API_KEY, PERSIST_DIRECTORY, DOCS_METADATA_DIR, DATA_CHANGES_DIR
 
 # Set protobuf environment variable to avoid error messages
 # This might cause some issues with latency but it's a tradeoff
 os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 
 # Configure Ollama client
-ollama.set_host(OLLAMA_HOST)
+os.environ["OLLAMA_HOST"] = OLLAMA_HOST
 if OLLAMA_API_KEY:
-    ollama.set_api_key(OLLAMA_API_KEY)
+    os.environ["OLLAMA_API_KEY"] = OLLAMA_API_KEY
 
 # Define persistent directories
 PERSIST_DIRECTORY = os.path.join("data", "vectors")
@@ -85,7 +85,8 @@ def get_existing_collection(doc_hash: str) -> Optional[Chroma]:
             embeddings = OllamaEmbeddings(
                 model="nomic-embed-text",
                 base_url=OLLAMA_HOST,
-                api_key=OLLAMA_API_KEY
+                api_key=OLLAMA_API_KEY,
+                temperature=0
             )
             return Chroma(
                 persist_directory=PERSIST_DIRECTORY,
@@ -276,7 +277,8 @@ def create_vector_db(file_upload) -> Chroma:
     embeddings = OllamaEmbeddings(
         model="nomic-embed-text",
         base_url=OLLAMA_HOST,
-        api_key=OLLAMA_API_KEY
+        api_key=OLLAMA_API_KEY,
+        temperature=0
     )
     vector_db = Chroma.from_documents(
         documents=chunks,
@@ -489,7 +491,8 @@ def handle_data_management_command(command: str, vector_db: Chroma) -> str:
                 embeddings = OllamaEmbeddings(
                     model="nomic-embed-text",
                     base_url=OLLAMA_HOST,
-                    api_key=OLLAMA_API_KEY
+                    api_key=OLLAMA_API_KEY,
+                    temperature=0
                 )
                 
                 # Create a document with the new information

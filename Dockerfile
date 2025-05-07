@@ -31,4 +31,4 @@ ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
 EXPOSE 8501
 
 # Run the application
-CMD ["streamlit", "run", "src/app/main.py"] 
+CMD ["streamlit", "run", "src/app/main.py", "--server.address", "0.0.0.0"] 
