@@ -32,7 +32,7 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain.retrievers.multi_query import MultiQueryRetriever
 from typing import List, Tuple, Dict, Any, Optional
 
-from src.app.config import OLLAMA_HOST, OLLAMA_API_KEY, PERSIST_DIRECTORY, DOCS_METADATA_DIR, DATA_CHANGES_DIR
+from ..app.config import OLLAMA_HOST, OLLAMA_API_KEY, PERSIST_DIRECTORY, DOCS_METADATA_DIR, DATA_CHANGES_DIR
 
 # Set protobuf environment variable to avoid error messages
 # This might cause some issues with latency but it's a tradeoff
